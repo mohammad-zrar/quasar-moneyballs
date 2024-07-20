@@ -27,6 +27,8 @@
       class="bg-primary"
       show-if-above
       bordered
+      :width="250"
+      :breakpoint="767"
     >
       <q-list>
         <q-item-label
@@ -60,14 +62,14 @@ defineOptions({
 
 const navLinks: NavLinkProps[] = [
   {
-    title: 'Docs',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: 'Entries',
+    icon: 'savings',
+    link: '/'
   },
   {
-    title: 'Github',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    title: 'Settings',
+    icon: 'settings',
+    link: '/settings'
   },
 ];
 
