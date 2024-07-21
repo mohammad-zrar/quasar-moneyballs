@@ -21,8 +21,12 @@
       </q-list>
     </div>
 
-    <q-footer>
-      <div class="row q-pa-sm q-col-gutter-sm">
+    <q-footer class="bg-transparent">
+      <div class="row q-mb-sm q-px-md q-py-sm shadow-up-3">
+        <div class="col text-grey-7 text-h6">Balance:</div>
+        <div class="col text-grey-7 text-h6 text-right">{{ balance }}</div>
+      </div>
+      <div class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary">
         <div class="col">
           <q-input bg-color="white" dense outlined placeholder="Name" />
         </div>
@@ -46,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import useCurrencify from "src/use/useCurrencify";
 import useAmountColorClass from "src/use/useAmountColorClass";
 
@@ -78,4 +82,14 @@ const entries = ref<Entry[]>([
     amount: 0,
   },
 ]);
+
+// BALANCE
+const balance = computed(() => {
+  return entries.value.reduce(
+    (accumulator: number, { amount }: { amount: number }): number => {
+      return accumulator + amount;
+    },
+    0
+  );
+});
 </script>
