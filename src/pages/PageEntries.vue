@@ -31,12 +31,22 @@
           {{ useCurrencify(balance) }}
         </div>
       </div>
-      <div class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary">
+      <q-form
+        @submit="addEntry"
+        class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary"
+      >
         <div class="col">
-          <q-input bg-color="white" dense outlined placeholder="Name" />
+          <q-input
+            v-model="addEntryFrom.name"
+            bg-color="white"
+            dense
+            outlined
+            placeholder="Name"
+          />
         </div>
         <div class="col">
           <q-input
+            v-model="addEntryFrom.amount"
             input-class="text-right"
             bg-color="white"
             dense
@@ -47,17 +57,18 @@
           />
         </div>
         <div class="col col-auto">
-          <q-btn round icon="add" />
+          <q-btn type="submit" round icon="add" />
         </div>
-      </div>
+      </q-form>
     </q-footer>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
 import useCurrencify from "src/use/useCurrencify";
 import useAmountColorClass from "src/use/useAmountColorClass";
+import { uid } from "quasar";
 
 interface Entry {
   id: string;
@@ -97,4 +108,20 @@ const balance = computed(() => {
     0
   );
 });
+
+// ADD ENTRY
+const addEntryFrom = reactive({
+  name: "",
+  amount: null,
+});
+
+const addEntry = () => {
+  const newEntry: Entry = {
+    id: String(uid),
+    name: addEntryFrom.name,
+    amount: Number(addEntryFrom.amount),
+  };
+
+  entries.value.push(newEntry);
+};
 </script>
