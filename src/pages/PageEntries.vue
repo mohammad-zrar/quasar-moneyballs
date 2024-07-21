@@ -39,6 +39,7 @@
           <q-input
             v-model="addEntryForm.name"
             bg-color="white"
+            ref="nameRef"
             dense
             outlined
             placeholder="Name"
@@ -110,6 +111,8 @@ const balance = computed(() => {
 });
 
 // ADD ENTRY
+const nameRef = ref();
+
 const addEntryFormDefault = {
   name: "",
   amount: null,
@@ -121,6 +124,7 @@ const addEntryForm = reactive({
 
 const addEntryFormReset = () => {
   Object.assign(addEntryForm, addEntryFormDefault);
+  nameRef.value.focus();
 };
 
 const addEntry = () => {
