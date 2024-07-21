@@ -37,7 +37,7 @@
       >
         <div class="col">
           <q-input
-            v-model="addEntryFrom.name"
+            v-model="addEntryForm.name"
             bg-color="white"
             dense
             outlined
@@ -46,7 +46,7 @@
         </div>
         <div class="col">
           <q-input
-            v-model="addEntryFrom.amount"
+            v-model.number="addEntryForm.amount"
             input-class="text-right"
             bg-color="white"
             dense
@@ -110,18 +110,27 @@ const balance = computed(() => {
 });
 
 // ADD ENTRY
-const addEntryFrom = reactive({
+const addEntryFormDefault = {
   name: "",
   amount: null,
+};
+
+const addEntryForm = reactive({
+  ...addEntryFormDefault,
 });
+
+const addEntryFormReset = () => {
+  Object.assign(addEntryForm, addEntryFormDefault);
+};
 
 const addEntry = () => {
   const newEntry: Entry = {
     id: String(uid),
-    name: addEntryFrom.name,
-    amount: Number(addEntryFrom.amount),
+    name: addEntryForm.name,
+    amount: Number(addEntryForm.amount),
   };
 
   entries.value.push(newEntry);
+  addEntryFormReset();
 };
 </script>
