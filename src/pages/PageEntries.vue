@@ -5,7 +5,7 @@
         <q-slide-item
           v-for="entry in entries"
           :key="entry.id"
-          @right="onEntrySlideRight($event, entry.id)"
+          @right="onEntrySlideRight($event, entry)"
           left-color="positive"
           right-color="negative"
         >
@@ -157,11 +157,17 @@ const addEntry = () => {
 
 // SLIDE ITEMS
 
-const onEntrySlideRight = ({ reset }: any, entryId: any) => {
+const onEntrySlideRight = ({ reset }: any, entry: Entry) => {
   $q.dialog({
     title: "Delete",
-    message: "Would you like to turn on the wifi?",
+    message: `
+    Delete this entry?
+    <div class="q-mt-md text-weight-bold ${useAmountColorClass(entry.amount)}">
+      ${entry.name} : ${useCurrencify(entry.amount)}
+    </div>
+    `,
     persistent: true,
+    html: true,
     ok: {
       label: "Delete",
       color: "negative",
@@ -174,7 +180,7 @@ const onEntrySlideRight = ({ reset }: any, entryId: any) => {
     },
   })
     .onOk(() => {
-      deleteEntry(entryId);
+      deleteEntry(entry.id);
     })
     .onCancel(() => {
       reset();
