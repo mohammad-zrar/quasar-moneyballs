@@ -191,5 +191,9 @@ const onEntrySlideRight = ({ reset }: any, entry: Entry) => {
 const deleteEntry = (entryId: string) => {
   const index = entries.value.findIndex((entry) => entry.id === entryId);
   entries.value.splice(index, 1);
+  $q.notify({
+    message: "Entry deleted",
+    position: "top",
+  });
 };
 </script>
