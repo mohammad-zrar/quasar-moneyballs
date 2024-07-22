@@ -5,7 +5,7 @@
         <q-slide-item
           v-for="entry in entries"
           :key="entry.id"
-          @right="onEntrySlideRight"
+          @right="onEntrySlideRight($event, entry.id)"
           left-color="positive"
           right-color="negative"
         >
@@ -84,13 +84,15 @@
 import { ref, computed, reactive } from "vue";
 import useCurrencify from "src/use/useCurrencify";
 import useAmountColorClass from "src/use/useAmountColorClass";
-import { uid } from "quasar";
+import { uid, useQuasar } from "quasar";
 
 interface Entry {
   id: string;
   name: string;
   amount: number;
 }
+
+const $q = useQuasar();
 
 const entries = ref<Entry[]>([
   {
@@ -155,7 +157,33 @@ const addEntry = () => {
 
 // SLIDE ITEMS
 
-const onEntrySlideRight = () => {
-  console.log("right");
+const onEntrySlideRight = ({ reset }: any, entryId: any) => {
+  $q.dialog({
+    title: "Delete",
+    message: "Would you like to turn on the wifi?",
+    persistent: true,
+    ok: {
+      label: "Delete",
+      color: "negative",
+      noCaps: true,
+    },
+    cancel: {
+      color: "grey",
+      noCaps: true,
+      flat: true,
+    },
+  })
+    .onOk(() => {
+      deleteEntry(entryId);
+    })
+    .onCancel(() => {
+      reset();
+    });
+};
+
+// DELETE ENTRY
+const deleteEntry = (entryId: string) => {
+  const index = entries.value.findIndex((entry) => entry.id === entryId);
+  entries.value.splice(index, 1);
 };
 </script>
